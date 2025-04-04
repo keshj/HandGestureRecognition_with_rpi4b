@@ -12,7 +12,8 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 # DroidCam URL
-url = "http://10.164.97.232:4747/video"
+ip_addr = input("Enter the IP address: ")
+url = f"http://{ip_addr}:4747/video"
 cap = cv2.VideoCapture(url)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 320)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 240)
@@ -30,6 +31,15 @@ pip_ids = [2, 6, 10, 14, 18]  # Include thumb IP joint (2)
 
 # Variable to track the last gesture to prevent repeated commands
 last_gesture = -1
+
+# Windows machine SSH details
+WINDOWS_USER = "windows user"
+WINDOWS_IP = "windows ip addr"
+
+def send_command_to_windows(command):
+    """Send command to Windows machine via SSH."""
+    ssh_command = f"ssh {WINDOWS_USER}@{WINDOWS_IP} python D:\Sem 4\rpi\HandGestureRecognition_with_rpi4b\remote_control.py {command}"
+    subprocess.Popen(ssh_command, shell=True)
 
 def generate_frames():
     """Generator function to process frames and stream them."""
@@ -100,11 +110,13 @@ def generate_frames():
                         last_gesture = up_count
                         # Execute commands based on finger count
                         if up_count == 4:
-                            keyboard.press_and_release('Ctrl+Alt+n')
+                            # Trigger Ctrl+Alt+N on Windows via SSH
+                            send_command_to_windows("next")
                             cv2.putText(frame, "Command: Ctrl+Alt+n", (10, 70), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
                         elif up_count == 3:
-                            keyboard.press_and_release('Ctrl+Alt+b')
+                            # Trigger Ctrl+Alt+B on Windows via SSH
+                            send_command_to_windows("back")
                             cv2.putText(frame, "Command: Ctrl+Alt+b", (10, 70), 
                                         cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
                         elif up_count == 2:

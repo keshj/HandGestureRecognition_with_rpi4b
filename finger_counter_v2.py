@@ -11,7 +11,8 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 # DroidCam URL
-url = "http://10.164.97.232:4747/video"
+ip_addr = input("Enter the IP address: ")
+url = f"http://{ip_addr}:4747/video"
 cap = cv2.VideoCapture(url)
 
 # Set resolution
