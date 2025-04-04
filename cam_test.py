@@ -2,7 +2,7 @@ import cv2
 from flask import Flask, Response
 
 app = Flask(__name__)
-url = "http://10.92.128.232:4747/video"
+url = "http://10.164.97.232:4747/video"
 cap = cv2.VideoCapture(url)
 
 def generate_frames():
